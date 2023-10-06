@@ -1,23 +1,20 @@
+import { useUser } from '@clerk/clerk-react'
 import './App.css'
-import { ClerkProvider } from '@clerk/clerk-react'
+import Expenses from './components/expense_dashboard/Expenses'
 
-if (!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY) {
-  throw new Error('Missing Publishable Key');
-}
+function App () {
+  const { isSignedIn, user, isLoaded } = useUser()
 
-const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
-
-function App() {
-console.log(clerkPubKey)
+  if (!isLoaded || !isSignedIn) {
+    return null
+  }
 
   return (
-    <ClerkProvider publishableKey={clerkPubKey}>
-    <div>
-
+    <main>
       <h1>Personal Finance Dashboard</h1>
-
-    </div>
-</ClerkProvider>
+      <p>Hello {user.fullName}</p>
+      <Expenses />
+    </main>
   )
 }
 
